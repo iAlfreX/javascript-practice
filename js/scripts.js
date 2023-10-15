@@ -1,32 +1,39 @@
-function getString(quantity) {
-  let userString = "";
-
-  for (let counter = 0; counter < quantity; counter++) {
-    const isLastIteration = quantity - counter === 1;
-    userString += prompt("Введіть рядок: ");
-
-    if (!isLastIteration) userString += " ";
-  }
-
-  return userString;
+function add(firstValue, secondValue) {
+  return firstValue + secondValue;
 }
 
-function getNumber() {
-  return +prompt("Введіть число: ");
+function sub(firstValue, secondValue) {
+  return firstValue - secondValue;
+}
+
+function mul(firstValue, secondValue) {
+  return firstValue * secondValue;
+}
+
+function div(firstValue, secondValue) {
+  const isSecondNumberZero = secondValue === 0;
+
+  if (isSecondNumberZero) return "Ділення на нуль!";
+
+  return firstValue / secondValue;
 }
 
 function printValue(value) {
   alert(value);
 }
 
-function splitStringCharByChar(line) {
-  return line.split("").join(" ");
+function getNumber() {
+  return +prompt("Введіть число: ");
 }
 
-const linesQuantity = +prompt("Введіть кількість рядків: ", "1");
-const userString = getString(linesQuantity);
-printValue(userString);
+const firstValue = getNumber(),
+  secondValue = getNumber();
 
-const userStringNumber = getNumber().toString();
-const brokenStringNumber = splitStringCharByChar(userStringNumber);
-printValue(brokenStringNumber);
+const resultAdd = `${firstValue} + ${secondValue} = ${add(firstValue, secondValue)}`;
+printValue(resultAdd);
+const resultSub = `${firstValue} - ${secondValue} = ${sub(firstValue, secondValue)}`;
+printValue(resultSub);
+const resultMul = `${firstValue} * ${secondValue} = ${mul(firstValue, secondValue)}`;
+printValue(resultMul);
+const resultDiv = `${firstValue} / ${secondValue} = ${div(firstValue, secondValue)}`;
+printValue(resultDiv);
