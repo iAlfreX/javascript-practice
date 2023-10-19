@@ -1,26 +1,89 @@
-function getHours() {
-  return +prompt("Введіть кількість годин: ");
+function getUser() {
+  return {
+    firstName: "",
+    lastName: "",
+    yearOfBirth: 0,
+    age: 0,
+    city: "",
+    favouriteSport: "",
+  };
 }
 
-function getSecondsFromHours(value) {
-  const minutesInHours = 60;
+function setUserInformation(user) {
+  const currentYear = Number(new Date().getFullYear());
+  const unspecifiedValue = "-не вказано-";
 
-  return value * Math.pow(minutesInHours, 2);
+  user.firstName = prompt("Введіть ім'я: ") || unspecifiedValue;
+  user.lastName = prompt("Введіть прізвище: ") || unspecifiedValue;
+  user.yearOfBirth = +prompt("Введіть рік народження: ") || unspecifiedValue;
+
+  user.age = currentYear - user.yearOfBirth;
+  if (isNaN(user.age)) user.age = unspecifiedValue;
+
+  user.city = prompt("Введіть місто: ") || unspecifiedValue;
+  user.favouriteSport = prompt("Введіть улюблений вид спорту: ") || unspecifiedValue;
 }
 
-function getMultipleOrSingleValueOfHours(value) {
-  let resultString;
+function getUserInformation(user) {
+  const capitals = ["Київ", "Вашингтон", "Лондон"];
+  const sports = [
+    { sport: "Футбол", champion: "Ліонелем Мессі" },
+    { sport: "Баскетбол", champion: "Ніколой Йокічем" },
+    { sport: "Волейбол", champion: "Томасом Єшкою" },
+  ];
 
-  if (value === 1) resultString = "годині";
-  else resultString = "годинах";
+  let userCountry,
+    sportСhampion,
+    isUserLivesInCapital = false;
 
-  return resultString;
+  for (const capital of capitals) {
+    if (user.city === capital) {
+      switch (capital) {
+        case "Київ":
+          userCountry = "України";
+          break;
+        case "Вашингтон":
+          userCountry = "США";
+          break;
+        case "Лондон":
+          userCountry = "Англії";
+          break;
+      }
+
+      isUserLivesInCapital = true;
+
+      break;
+    }
+  }
+
+  for (const sport of sports) {
+    if (user.favouriteSport === sport.sport) {
+      sportСhampion = sport.champion;
+
+      break;
+    }
+  }
+
+  const unspecifiedValue = "-не вказано-";
+  const tempPhraseOfRegret = "Шкода, що Ви не захотіли ввести";
+
+  alert(`${user.firstName !== unspecifiedValue ? `Твоє ім'я: ${user.firstName}` : `${tempPhraseOfRegret} своє ім'я`}
+${user.lastName !== unspecifiedValue ? `Твоє прізвище: ${user.lastName}` : `${tempPhraseOfRegret} своє прізвище`}
+${user.age !== unspecifiedValue ? `Твій вік: ${user.age}` : `${tempPhraseOfRegret} свою дату народження`} 
+${
+  user.city !== unspecifiedValue
+    ? `Ти живеш у ${isUserLivesInCapital ? `столиці ${userCountry}` : `місті ${user.city}`}`
+    : `${tempPhraseOfRegret} своє місто`
+} 
+${
+  user.favouriteSport !== unspecifiedValue
+    ? `${
+        sportСhampion !== undefined ? `Круто! Хочеш стати ${sportСhampion}?` : `Твій улюблений спорт: ${user.favouriteSport}`
+      }`
+    : `${tempPhraseOfRegret} свій улюблений вид спорту`
+}`);
 }
 
-function getValue(value) {
-  alert(value);
-}
-
-const hours = getHours();
-const secondsFromHours = getSecondsFromHours(hours);
-getValue(`Кількість секунд в ${hours} ${getMultipleOrSingleValueOfHours(hours)} - ${secondsFromHours} секунд.`);
+const user = getUser();
+setUserInformation(user);
+getUserInformation(user);
