@@ -1,60 +1,51 @@
-let array = createArray();
-outputArray(array);
-sortArray(array);
-outputArray(array, "Відсортований масив за зростанням: ");
+const array = [16, -37, 54, -4, 72, -56, 47, 4, -16, 25, -37, 46, 4, -51, 27, -63, 4, -54, 76, -4, 12, -35, 4, 47];
+const sumOfElements = array.reduce((accumulator, el) => accumulator + el, 0);
 
-// Якщо елементів за умовою десять наприклад
-outputArray(array.slice(0, 2).concat(array.slice(5)), "Масив у якого відсутні елементи з 2 по 4 індекс включно: ");
+const sumOfPairedPositiveElements = array
+  .filter((el) => el > 0 && el % 2 === 0)
+  .reduce((accumulator, el) => accumulator + el, 0);
 
-function createArray() {
-  const array = [];
-  let choice = false;
+const sumOfUnpairedPositiveElements = array
+  .filter((el) => el > 0 && el % 2 !== 0)
+  .reduce((accumulator, el) => accumulator + el, 0);
 
-  do {
-    const length = +prompt("Введіть кількість елементів масиву: ");
+const numberOfPositiveElements = array.filter((el) => el > 0).length,
+  numberOfNegativeElements = array.filter((el) => el < 0).length;
 
-    if (length >= 1) {
-      array.length = length;
-      break;
-    } else if (isNaN(length)) {
-      alert("Помилка! Ви вказали не число!");
-    } else {
-      alert("Помилка! Ви вказали розмір масиву менше одиниці!");
-    }
+const maxEl = array.reduce((accumulator, el) => {
+  if (el > accumulator) return el;
 
-    choice = confirm("Хочете спробувати ще раз?");
-  } while (choice);
+  return accumulator;
+}, array[0]);
 
-  if (array.length === 0) return;
+const minEl = array.reduce((accumulator, el) => {
+  if (el < accumulator) return el;
 
-  for (let i = 0; i < array.length; i++) {
-    const el = +prompt(`Введіть значення для елементу масива за індексом [${i}]: `);
+  return accumulator;
+}, array[0]);
 
-    if (isNaN(el)) {
-      alert(`Помилка! Введене значення для елементу масива за індексом [${i}] є не числом! Спробуйте ще раз!`);
-      i--;
-    } else {
-      array[i] = el;
-    }
-  }
+const maxElIndex = array.indexOf(maxEl),
+  minElIndex = array.indexOf(minEl); // Не зрозумів щодо порядкового номера! Якщо це не індекс то треба при виводі константи додати +1.
 
-  return array;
-}
+const numberOfUnpairedPositiveElements = array.filter((el) => el > 0 && el % 2 !== 0).length,
+  numberOfPairedPositiveElements = array.filter((el) => el > 0 && el % 2 === 0).length;
 
-function outputArray(array, message) {
-  if (typeof message !== "string" || message.trim() === "") message = "Вихідний масив: ";
+const productOfPositiveElements = array.filter((el) => el > 0).reduce((accumulator, el) => accumulator * el, 1);
+const arrayWithOneLargestValue = array.map((el) => {
+  if (el !== maxEl) el = 0;
 
-  if (array instanceof Array) {
-    alert(`${message}${array.join(", ")}`);
-  } else {
-    console.error("Вхідне значення не масив!");
-  }
-}
+  return el;
+});
 
-function sortArray(array) {
-  if (array instanceof Array) {
-    array.sort((a, b) => a - b);
-  } else {
-    console.error("Вхідне значення не масив!");
-  }
-}
+console.log(`Вихідний масив: ${array.join(", ")}.`);
+console.log(``);
+console.log(`Сума всіх елементів: ${sumOfElements}. Кількість його позитивних елементів: ${numberOfPositiveElements}.`);
+console.log(`Максимальний елемент масива: ${maxEl}. Його індекс: ${maxElIndex}.`);
+console.log(`Мінімальний елемент масива: ${minEl}. Його індекс: ${minElIndex}.`);
+console.log(`Кількість негативних елементів: ${numberOfNegativeElements}.`);
+console.log(`Кількість непарних позитивних елементів: ${numberOfUnpairedPositiveElements}.`);
+console.log(`Кількість парних позитивних елементів: ${numberOfPairedPositiveElements}.`);
+console.log(`Сума парних позитивних елементів: ${sumOfPairedPositiveElements}.`);
+console.log(`Сума непарних позитивних елементів: ${sumOfUnpairedPositiveElements}.`);
+console.log(`Добуток парних позитивних елементів: ${productOfPositiveElements}.`);
+console.log(`Масив з обнуленими значеннями окрім найбільшого значення: ${arrayWithOneLargestValue.join(", ")}.`);
