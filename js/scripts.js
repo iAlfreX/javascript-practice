@@ -1,57 +1,18 @@
-const array = createArray();
+const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-outputArray(array);
+console.log(generateKey(5, characters));
 
-if (typeof array !== "undefined") {
-  const item = prompt("Введите элемент массива, который нужно удалить: ");
+function generateKey(length, characters) {
+  const isNumber = typeof length === "number" && !isNaN(length);
+  const isString = typeof characters === "string" && characters.trim().length > 0;
 
-  if (!enableNullCheck(item)) {
-    removeElement(array, item);
-    outputArray(array);
-  }
-}
+  if (isNumber && isString) {
+    let result = "";
 
-function removeElement(array, item) {
-  if (Array.isArray(array) && !isNaN(item)) {
-    if (array.length !== 0) {
-      const index = array.findIndex((el) => el === +item);
-
-      index !== -1 ? array.splice(index, 1) : alert("Данного элемента нет в массиве!");
-    } else {
-      alert("Массив пустой!");
-    }
-  } else {
-    alert("Входные данные неверны!");
-  }
-}
-
-function createArray() {
-  const array = [];
-  let input = prompt("Введите числовые элементы массива или 'готово', чтобы закончить:");
-
-  if (enableNullCheck(input)) return;
-
-  while (input.toLowerCase() !== "готово") {
-    if (!isNaN(input)) {
-      array.push(+input);
-    } else {
-      alert("Вы ввели не число! Попробуйте еще раз!");
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
 
-    input = prompt("Введите следующий элемент массива или 'готово', чтобы закончить:");
-
-    if (enableNullCheck(input)) return;
+    return result;
   }
-
-  return array;
-}
-
-function outputArray(array) {
-  if (Array.isArray(array)) {
-    alert(`Элементы массива: ${array}.`);
-  }
-}
-
-function enableNullCheck(input) {
-  if (input === null) return true;
 }
