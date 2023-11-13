@@ -1,49 +1,55 @@
 class Human {
-  constructor(name, gender) {
+  constructor(name, age) {
     this.name = name;
-    this.gender = gender;
+    this.age = age;
+  }
+
+  displayInfo() {
+    console.log(`Владелец: ${this.name}, ${this.age}.`);
   }
 }
 
-class Apartment {
-  residents = [];
+class Car {
+  constructor(brand, model, year, licensePlate) {
+    this.brand = brand;
+    this.model = model;
+    this.year = year;
+    this.licensePlate = licensePlate;
+    this._owner = null;
+    this._minimumAge = 18;
+  }
 
-  addResident(resident) {
-    if (resident instanceof Human) this.residents.push(resident);
-    else console.log("Переданный аргумент не является человеком!");
+  get owner() {
+    return this._owner;
+  }
+
+  set owner(owner) {
+    if (owner instanceof Human)
+      owner.age >= this._minimumAge
+        ? (this._owner = owner)
+        : console.log(`Владелец ${owner.name} не может быть назначен: возраст менее 18 лет.`);
+    else console.log("Переданный аргумент не является объектом класа Human!");
+  }
+
+  displayFullInfo() {
+    this.owner.displayInfo();
+
+    console.log(`Информация об автомобиле:
+	- марка: ${this.brand};
+	- модель: ${this.model};
+	- год выпуска: ${this.year};
+	- номерной знак: ${this.licensePlate}.`);
   }
 }
 
-class House {
-  constructor(maxNumOfApartments) {
-    this.maxNumOfApartments = maxNumOfApartments;
-  }
+const anton = new Human("Антон", 21);
+const john = new Human("Джон", 43);
 
-  apartments = [];
+const toyota = new Car("Toyota", "Camry", 2022, "ABC123");
+const honda = new Car("Honda", "Accord", 2021, "XYZ789");
 
-  addApartment(apartment) {
-    if (apartment instanceof Apartment)
-      this.apartments.length < this.maxNumOfApartments
-        ? this.apartments.push(apartment)
-        : console.log(`Невозможно добавить квартиру! Максимальное количество квартир в доме ${this.maxNumOfApartments}.`);
-    else console.log("Переданный аргумент не является квартирой!");
-  }
-}
+toyota.owner = anton;
+honda.owner = john;
 
-const john = new Human("John", "Male");
-const jane = new Human("Jane", "Female");
-const bob = new Human("Bob", "Male");
-const alice = new Human("Alice", "Female");
-
-const firstApartment = new Apartment();
-const secondApartment = new Apartment();
-firstApartment.addResident(john);
-firstApartment.addResident(jane);
-secondApartment.addResident(bob);
-secondApartment.addResident(alice);
-
-const myHouse = new House(2);
-myHouse.addApartment(firstApartment);
-myHouse.addApartment(secondApartment);
-
-console.log(myHouse);
+toyota.displayFullInfo();
+honda.displayFullInfo();
