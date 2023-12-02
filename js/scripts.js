@@ -1,27 +1,83 @@
 "use strict";
 
-class Image {
-  getRandomImage() {
-    document.body.innerHTML = "";
+class DataValidation {
+  static checkForString(value) {
+    return typeof value === "string";
+  }
 
-    const randomNumber = Math.floor(Math.random() * 9) + 1;
-    const div = document.createElement("div");
-    div.style.cssText = "width: 500px; height: 500px; overflow: hidden;";
+  static checkForEmptyString(value) {
+    return value.trim() === "";
+  }
 
-    document.body.style.cssText = "margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;";
-    document.body.insertBefore(div, document.body.firstChild);
-
-    const img = document.createElement("img");
-    img.style.cssText = "width: 100%; height: 100%;";
-    img.setAttribute("alt", "Картинка");
-    img.setAttribute("src", `../images/${randomNumber}.jpg`);
-
-    div.appendChild(img);
+  static checkForUndefined(value) {
+    return typeof value === "undefined";
   }
 }
 
-const myImage = new Image();
-myImage.getRandomImage();
+class Link {
+  constructor(text, link) {
+    this._text = DataValidation.checkForString(text) && !DataValidation.checkForEmptyString(text) ? text : "Ссылка";
+    this._link = DataValidation.checkForString(link) && !DataValidation.checkForEmptyString(link) ? link : "#";
+    this._style = "";
+  }
 
-// const anotherImage = new Image();
-// anotherImage.getRandomImage();
+  get text() {
+    return this._text;
+  }
+
+  set text(value) {
+    this._text = DataValidation.checkForString(value) && !DataValidation.checkForEmptyString(value) ? value : "Ссылка";
+  }
+
+  get link() {
+    return this._link;
+  }
+
+  set link(value) {
+    this._link = DataValidation.checkForString(value) && !DataValidation.checkForEmptyString(value) ? value : "#";
+  }
+
+  get style() {
+    return this._style;
+  }
+
+  set style(value) {
+    this._style = DataValidation.checkForString(value) && !DataValidation.checkForEmptyString(value) ? value : "";
+  }
+
+  _checkForProtocol() {
+    if (this._link === "#") return;
+
+    if (!this._link.startsWith("http://") || !this._link.startsWith("https://")) this.link = "https://" + this._link;
+  }
+
+  createLink(linkStyle) {
+    const link = document.createElement("a");
+
+    if (!DataValidation.checkForUndefined(linkStyle)) this.style = linkStyle;
+
+    link.textContent = this._text;
+    link.style.cssText = this._style;
+    this._checkForProtocol();
+    link.setAttribute("href", `${this._link}`);
+    link.setAttribute("target", "_blank");
+    document.body.appendChild(link);
+  }
+}
+
+const firstLink = new Link("Первая ссылка", "www.uintei.kiev.ua");
+
+/* 
+	У данного сайта фактически http протокол. В методе _checkForProtocol() 
+	добавляется https протокол и данная запись в методе не призведет к ошибке 
+	так как браузеры автоматически там где нужно могут заменять http на https и наоборот!
+*/
+
+const firstLinkStyle =
+  "display: inline-block; margin-right: 5px; padding: 10px 20px; text-decoration: none; background-color: #3498db; color: #fff; border-radius: 5px;";
+firstLink.createLink(firstLinkStyle);
+
+const secondLink = new Link("Вторая ссылка", "www.youtube.com");
+const secondLinkStyle =
+  "display: inline-block; padding: 10px 20px; text-decoration: none; background-color: #3498db; color: #fff; border-radius: 5px;";
+secondLink.createLink(secondLinkStyle);
