@@ -1,33 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 3</title>
+    <title>Homework</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <div class="categories" id="categories">
-      <h2 class="heading">Категории</h2>
-      <ul>
-        <li>Планшеты</li>
-        <li>Смартфоны</li>
-        <li>Телевизоры</li>
-      </ul>
-    </div>
+    <h1 class="heading">Заполните форму</h1>
+    <form class="form">
+      <fieldset class="input-wrapper">
+        <label for="name" class="input-label">Имя: <span class="required">*</span></label>
+        <input type="text" name="name" id="name" class="input" placeholder="Введите свое имя..." required />
+      </fieldset>
 
-    <div class="products" id="products">
-      <h2 class="heading">- - -</h2>
-      <ul></ul>
-    </div>
+      <fieldset class="input-wrapper">
+        <label for="surname" class="input-label">Фамилия: <span class="required">*</span></label>
+        <input type="text" name="surname" id="surname" class="input" placeholder="Введите свою фамилию..." required />
+      </fieldset>
 
-    <div class="product-info" id="product-info">
-      <h2 class="heading">Информация о продукте</h2>
-      <div class="img-wrapper">
-        <img src="" alt="Товар" class="img" />
-      </div>
-      <button type="button" class="btn">Купить</button>
-    </div>
+      <fieldset class="input-wrapper">
+        <label for="birthdate" class="input-label">Дата рождения: <span class="required">*</span></label>
+        <input type="date" name="birthdate" id="birthdate" class="input" required />
+      </fieldset>
+
+      <fieldset class="input-wrapper">
+        <label class="input-label">Пол:</label>
+        <div class="radio-button-wrapper">
+          <input type="radio" name="gender" id="male" value="Мужской" class="radio-button" />
+          <label for="male" class="radio-label">Мужской</label>
+        </div>
+        <div class="radio-button-wrapper">
+          <input type="radio" name="gender" id="female" value="Женский" class="radio-button" />
+          <label for="female" class="radio-label">Женский</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="input-wrapper">
+        <label for="city" class="input-label">Виберите свой город:</label>
+        <select name="city" id="city" class="input">
+          <option value="Харьков">Харьков</option>
+          <option value="Киев" selected>Киев</option>
+          <option value="Одесса">Одесса</option>
+          <option value="Днепр">Днепр</option>
+        </select>
+      </fieldset>
+
+      <fieldset class="input-wrapper">
+        <label for="address" class="input-label">Введите адрес проживания:</label>
+        <textarea name="address" id="address" class="textarea" placeholder="Введите адрес проживания..."></textarea>
+      </fieldset>
+
+      <fieldset class="input-wrapper">
+        <label class="input-label">Выберите языки, которые вы знаете:</label>
+        <div class="check-button-wrapper">
+          <input type="checkbox" name="languages" id="javascript" value="JavaScript" />
+          <label for="javascript">JavaScript</label>
+        </div>
+        <div class="check-button-wrapper">
+          <input type="checkbox" name="languages" id="php" value="PHP" />
+          <label for="php">PHP</label>
+        </div>
+        <div class="check-button-wrapper">
+          <input type="checkbox" name="languages" id="c#" value="C#" />
+          <label for="c#">C#</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="btn-wrapper">
+        <button type="reset" class="btn reset-btn">Сбросить</button>
+        <button type="submit" class="btn submit-btn">Сохранить</button>
+      </fieldset>
+    </form>
 
     <script src="js/scripts.js"></script>
   </body>

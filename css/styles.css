@@ -1,84 +1,115 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  height: 100vh;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  line-height: 1.1;
 }
 
-ul {
-  list-style: none;
-}
-
-li {
-  background-color: #87ceeb;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-li:hover {
-  background-color: #5e99c5;
-}
-
-.categories,
-.products,
-.product-info {
-  padding: 30px;
+fieldset {
+  border: none;
 }
 
 .heading {
-  color: #333;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
   text-align: center;
-  font-size: 28px;
-  border-bottom: 1px solid #000;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
+  margin: 30px 0;
 }
 
-.products {
-  width: 40%;
-  background-color: #d8e2dc;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+.form {
+  max-width: 470px;
+  margin: 0 auto;
+  background: rgba(202, 109, 79, 0.3);
+  border-radius: 15px;
+  padding: 30px;
 }
 
-.categories,
-.product-info {
-  width: 30%;
-  background-color: #f0d9c8;
+.input-wrapper {
+  margin-bottom: 20px;
 }
 
-.img-wrapper {
+.input-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.required {
+  color: #ff0000;
+}
+
+.input {
+  border-radius: 10px;
+  border: none;
   width: 100%;
-  height: 400px;
-  margin-bottom: 50px;
-  display: none;
+  height: 35px;
+  padding: 10px;
 }
 
-.img {
+.radio-button-wrapper {
+  margin-top: 10px;
+  font-size: 0;
+}
+
+.radio-button {
+  margin-right: 5px;
+}
+
+.radio-label {
+  font-size: 14px;
+}
+
+.textarea {
+  resize: none;
   width: 100%;
-  height: 100%;
+  height: 75px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.check-button-wrapper {
+  margin-top: 10px;
+}
+
+.btn-wrapper {
+  font-size: 0;
 }
 
 .btn {
-  background-color: #4caf50;
-  width: 100%;
-  font-size: 24px;
-  color: #fff;
-  padding: 10px 20px;
+  width: 185px;
+  height: 35px;
+  border-radius: 10px;
   border: none;
-  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: none;
 }
 
-.btn:hover {
-  background-color: #45a049;
+.reset-btn {
+  margin-right: 30px;
+  background: #c4c4c4;
+  color: #000;
+}
+
+.submit-btn {
+  background: #000;
+  color: #fff;
+}
+
+.table {
+  min-width: 470px;
+  border-collapse: collapse;
+  margin: 30px auto;
+  background-color: rgba(202, 109, 79, 0.3);
+}
+
+.table-data,
+.table-header {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #000;
 }
