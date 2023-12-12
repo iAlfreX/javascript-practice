@@ -1,22 +1,6 @@
 "use strict";
 
 class DataValidation {
-  static checkForNumber(value) {
-    return typeof value === "number";
-  }
-
-  static checkForNaN(value) {
-    return isNaN(value);
-  }
-
-  static checkForInteger(value) {
-    return Number.isInteger(value);
-  }
-
-  static checkForValidInteger(value) {
-    return this.checkForNumber(value) && !this.checkForNaN(value) && this.checkForInteger(value);
-  }
-
   static checkForFormElement(value) {
     return value instanceof HTMLFormElement;
   }
@@ -31,18 +15,8 @@ class DataValidation {
 }
 
 class FormTable {
-  constructor(formObj, numberOfFields) {
+  constructor(formObj) {
     this._formObj = DataValidation.checkForObject(formObj) ? formObj : null;
-    this._numberOfFields = DataValidation.checkForValidInteger(numberOfFields) ? numberOfFields : null;
-    this._cols = 2;
-  }
-
-  get numberOfFields() {
-    return this._numberOfFields;
-  }
-
-  set numberOfFields(numberOfFields) {
-    this._numberOfFields = DataValidation.checkForValidInteger(numberOfFields) ? numberOfFields : null;
   }
 
   get formObj() {
@@ -54,7 +28,11 @@ class FormTable {
   }
 
   createTableWithData() {
-    if (!DataValidation.checkForNull(this._formObj) || !DataValidation.checkForNull(this._numberOfFields)) {
+    if (!DataValidation.checkForNull(this._formObj)) {
+      const checkingForTableExistence = document.querySelector(".table") !== null;
+
+      if (checkingForTableExistence) document.querySelector(".table").remove();
+
       const table = document.createElement("table");
       table.className = "table";
 
@@ -82,7 +60,7 @@ class FormTable {
 function handleSubmit(event) {
   event.preventDefault();
   const formObj = convertFormToObject(event.target);
-  new FormTable(formObj.form, formObj.numberOfFields).createTableWithData();
+  new FormTable(formObj).createTableWithData();
 }
 
 function convertFormToObject(form) {
@@ -95,15 +73,8 @@ function convertFormToObject(form) {
       formObj.languages = selectedLanguages;
     }
 
-    return {
-      form: formObj,
-      numberOfFields: countNumberOfObjectFields(formObj),
-    };
+    return formObj;
   }
-}
-
-function countNumberOfObjectFields(obj) {
-  if (DataValidation.checkForObject(obj)) return Object.keys(obj).length;
 }
 
 document.querySelector(".form").addEventListener("submit", handleSubmit);
