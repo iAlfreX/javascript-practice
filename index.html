@@ -3,38 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 3</title>
+    <title>FirstHomework</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <div class="pop-up" id="pop-up">
-      <h2 class="heading">Мои заказы</h2>
-      <span class="text">Пустота...</span>
-      <ul class="order-list"></ul>
-      <button type="button" class="pop-up-btn" id="pop-up-btn">Закрыть</button>
-    </div>
+    <form action="#" class="form" id="form">
+      <label for="postId" class="form-label"
+        >Введите id поста для поиска(1-100):<span class="error" id="error">Вы ввели некорректные данные...</span></label
+      >
+      <input type="number" class="form-input" id="postId" name="postId" placeholder="Введите ID поста..." required />
+      <button type="submit" class="btn">Найти пост</button>
+    </form>
 
-    <div class="categories" id="categories">
-      <h2 class="heading">Категории</h2>
-      <ul>
-        <li>Планшеты</li>
-        <li>Смартфоны</li>
-        <li>Телевизоры</li>
-      </ul>
-      <button type="button" class="btn" id="categories-btn">Мои заказы</button>
-    </div>
-
-    <div class="products" id="products">
-      <h2 class="heading">- - -</h2>
-      <ul></ul>
-    </div>
-
-    <div class="product-info" id="product-info">
-      <h2 class="heading product-info-heading"></h2>
-      <div class="img-wrapper">
-        <img src="" alt="Товар" class="img" />
-      </div>
-      <button type="button" class="btn product-info-btn" id="product-info-btn">Купить</button>
+    <div class="post" id="post">
+      <h2 class="post-heading" id="postHeading"></h2>
+      <p class="post-text" id="postText"></p>
+      <button type="button" class="btn" id="postButton">Показать комментарии</button>
+		<div class="comments" id="comments"></div>
     </div>
 
     <script src="js/scripts.js"></script>
