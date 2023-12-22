@@ -1,112 +1,72 @@
 "use strict";
 
-async function requestPost(url, event) {
+async function requestWeather(url) {
   try {
-    event.preventDefault();
-    const parentElement = event.currentTarget;
-    const inputElement = parentElement.querySelector("#postId");
-    const enteredId = Number(inputElement.value);
+    const jsonWeatherData = await fetchData(url);
+    const weatherData = await parseJSONData(jsonWeatherData);
+    const selectedData = {
+      city: weatherData.name,
+      temp: weatherData.main.temp,
+      pressure: weatherData.main.pressure,
+      description: weatherData.weather[0].description,
+      humidity: weatherData.main.humidity,
+      speed: weatherData.wind.speed,
+      deg: weatherData.wind.deg,
+      icon: `http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`,
+    };
 
-    if (!checkIDValidity(enteredId, 1, 100)) {
-      const errorElement = parentElement.querySelector("#error");
-      const errorMessage = "Пожалуйста, введите корректный ID от 1 до 100...";
-      errorElement.textContent = errorMessage;
-      errorElement.style.display = "block";
-      throw new Error(errorMessage);
-    }
+    createBasicWeatherTableFromData(selectedData);
 
-    const response = await fetchData(url);
-    const posts = await parseJSONData(response);
-    displayPost(enteredId, posts);
-
-    return enteredId;
+    return weatherData;
   } catch (error) {
-    alert(error.message);
     console.error(`Произошла ошибка: ${error.message}`);
   }
-}
-
-async function requestComments(url, postIdPromise, event) {
-  try {
-    const response = await fetchData(url);
-    const comments = await parseJSONData(response);
-    const postId = await postIdPromise;
-    const filteredComments = comments.filter((comment) => comment.postId === postId);
-
-    event.target.remove();
-    displayComments(filteredComments);
-  } catch (error) {
-    alert(error.message);
-    console.error(error.message);
-  }
-}
-
-function displayComments(filteredComments) {
-  const commentsBlock = document.querySelector("#comments");
-
-  filteredComments.forEach((comment) => {
-    const block = document.createElement("div");
-    const userEmail = document.createElement("span");
-    const userComment = document.createElement("p");
-
-    block.style.cssText = "margin: 10px 0; padding-bottom: 10px; border-bottom: 1px solid #FF0000;";
-    block.append(userEmail);
-    block.append(userComment);
-
-    userEmail.style.cssText = "margin-bottom: 5px; font-size: 14px;";
-    userEmail.textContent = comment.email;
-
-    userComment.style.cssText = "font-size: 12px;";
-    userComment.textContent = comment.body;
-
-    commentsBlock.append(block);
-  });
-}
-
-function checkIDValidity(enteredId, minId, maxId) {
-  return enteredId >= minId && enteredId <= maxId;
 }
 
 async function fetchData(url) {
   try {
     const response = await fetch(url);
 
-    if (!response.ok) throw new Error("Ошибка при получении данных!");
+    if (!response.ok) throw new Error("Ошибка при запросе данных у сервера...");
 
     return response;
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    console.error(`Произошла ошибка: ${error.message}`);
   }
 }
 
-async function parseJSONData(data) {
+async function parseJSONData(jsonData) {
   try {
-    const jsonData = await data.json();
-
-    return jsonData;
-  } catch (err) {
-    throw err;
+    const data = await jsonData.json();
+    return data;
+  } catch (error) {
+    console.error(`Произошла ошибка во время распарсивания данных: ${error.message}`);
   }
 }
 
-function displayPost(enteredId, posts) {
-  const post = posts.find((post) => post.id === enteredId);
+function createBasicWeatherTableFromData(data) {
+  const table = document.querySelector("#weather-table");
+  table.style.display = "block";
 
-  if (post) {
-    const parentElement = document.querySelector("#form");
-    const postElement = document.querySelector("#post");
+  for (const key in data) {
+    const tableRow = document.createElement("tr");
+    const tableHead = document.createElement("th");
+    const tableData = document.createElement("td");
 
-    parentElement.style.display = "none";
-    postElement.querySelector("#postHeading").textContent = post.title;
-    postElement.querySelector("#postText").textContent = post.body;
-    postElement.style.display = "block";
+    if (key === "icon") {
+      tableHead.colSpan = 2;
+      tableHead.innerHTML = `<img src="${data[key]}" alt="Изображение">`;
+      tableRow.appendChild(tableHead);
+      table.append(tableRow);
+    } else {
+      tableHead.textContent = key;
+      tableData.textContent = data[key];
+      tableRow.append(tableHead);
+      tableRow.append(tableData);
+      table.append(tableRow);
+    }
   }
 }
 
-let postId;
-document.querySelector("#form").addEventListener("submit", (event) => {
-  postId = requestPost("https://jsonplaceholder.typicode.com/posts", event);
-});
-document.querySelector("#postButton").addEventListener("click", (event) => {
-  requestComments("https://jsonplaceholder.typicode.com/comments", postId, event);
-});
+const url = "https://api.openweathermap.org/data/2.5/weather?q=Kyiv&units=metric&APPID=5d066958a60d315387d9492393935c19";
+requestWeather(url);
